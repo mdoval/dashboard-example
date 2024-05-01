@@ -1,7 +1,7 @@
-import { IProducto } from "@/lib/definitions";
+import { product } from "@prisma/client";
 import ProductoItemTable from "./producto-item-table";
 
-export default function ProductosTable({productos}: {productos: IProducto[]}) {
+export default function ProductosTable({productos}: {productos: product[] | undefined}) {
   return (
     <div className="overflow-x-auto">
       <table className="table">
@@ -16,7 +16,7 @@ export default function ProductosTable({productos}: {productos: IProducto[]}) {
           </tr>
         </thead>
         <tbody>
-            {productos.map((producto:IProducto) => {
+            {productos?.map((producto: product) => {
                 return(
                     <ProductoItemTable key={producto.id} producto={producto} />
                 )

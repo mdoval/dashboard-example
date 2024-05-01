@@ -1,11 +1,11 @@
-import { fetchProductos } from "@/lib/data";
+import { fetchProducts } from "@/lib/data";
 import Link from "next/link";
 import { GrCatalog } from "react-icons/gr";
 import ProductosTable from "../ui/dashboard/table-productos";
 import CreateProducto from "../ui/dashboard/create-producto-button";
 
 export default async function DashboardPage() {
-  const productos = await fetchProductos()
+  const productos = await fetchProducts()
 
   return (
     <main className="w-full h-full p-4">

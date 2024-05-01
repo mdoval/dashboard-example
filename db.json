@@ -1,9 +1,0 @@
-{
-    "products": [
-        {"id": 1, "title": "Destornillador", "descripcion": "Herramienta de primer nivel", "cantidad": 100, "precio": 550},
-        {"id": 2, "title": "Pinza", "descripcion": "Herramienta de primer nivel", "cantidad": 100, "precio": 550},
-        {"id": 3, "title": "Serrucho", "descripcion": "Herramienta de primer nivel", "cantidad": 100, "precio": 550},
-        {"id": 4, "title": "Pico", "descripcion": "Herramienta de primer nivel", "cantidad": 100, "precio": 550},
-        {"id": 5, "title": "Pala", "descripcion": "Herramienta de primer nivel", "cantidad": 100, "precio": 550}
-    ]
-}

@@ -1,11 +1,11 @@
-import { fetchProductos } from "@/lib/data";
+import { fetchProducts } from "@/lib/data";
 import { ProductItem } from "./ui/product-item";
-import { IProducto } from "@/lib/definitions";
 import Link from "next/link";
 import { MdOutlineDashboardCustomize } from "react-icons/md";
+import { product } from "@prisma/client";
 
 export default async function Home() {
-  const productos = await fetchProductos();
+  const productos = await fetchProducts();
 
   return (
     <main className="w-full h-full p-4">
@@ -17,7 +17,7 @@ export default async function Home() {
       <h1 className=" text-5xl m-4">Catalogo de Productos</h1>
       <hr />
       <div className="flex flex-wrap w-full h-full justify-left">
-        {productos.map((producto: IProducto) => {
+        {productos?.map((producto: product) => {
           return <ProductItem key={producto.id} product={producto} />;
         })}
       </div>
