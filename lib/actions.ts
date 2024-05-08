@@ -1,3 +1,8 @@
-export function createProduct(prevState: {field: string, message: string}[] | undefined, formData: FormData ) {
-    return [{field: "title", message: "El titulo no puede ser nulo"},{field: "price", message: "El precio es muy alto"}]
+import { ProductoFormErrors } from "@/types/types";
+
+export function createProduct(prevState: ProductoFormErrors, formData: FormData ) {
+    const errors: ProductoFormErrors = {}
+    errors.description = "Error en Descripcion"
+    errors.category = "Error en Categoria"
+    return errors
 }

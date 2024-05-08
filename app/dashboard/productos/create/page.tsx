@@ -1,8 +1,11 @@
 import FormCreateProducto from "@/app/ui/dashboard/form-create";
 import Link from "next/link";
 import { IoArrowBack } from "react-icons/io5";
+import { fetchCategories } from "@/lib/data";
 
-export default function CrearProductoPage() {
+export default async function CrearProductoPage() {
+  const categories = await fetchCategories();
+
   return (
     <div className="w-full h-full p-4">
       <div className="w-full flex justify-end">
@@ -15,7 +18,7 @@ export default function CrearProductoPage() {
       </div>
       <hr />
       <div className="flex flex-col w-full h-full">
-        <FormCreateProducto />
+        <FormCreateProducto categories={categories} />
       </div>
     </div>
   );

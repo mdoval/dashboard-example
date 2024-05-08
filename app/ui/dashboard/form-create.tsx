@@ -1,20 +1,19 @@
-'use client'
+"use client";
 
-import { fetchCategories } from "@/lib/data";
 import PublishedControl from "./published-control";
 import CategoryControl from "./category-control";
 import Link from "next/link";
 import { useFormState } from "react-dom";
 import { createProduct } from "@/lib/actions";
 import { ErrorMessage } from "./errors";
+import { ProductoFormErrors } from "@/types/types";
 
-export default async function FormCreateProducto() {
-  const initalValue: {field: string, message: string }[] | undefined = undefined
-  const [errors, dispatch] = useFormState(createProduct, initalValue)
-  const categories = await fetchCategories();
+export default function FormCreateProducto({categories}: {categories: {id: number, name: string}[] | undefined}) {
+  const initalValue: ProductoFormErrors = {}
+  const [errors, dispatch] = useFormState(createProduct, initalValue);
 
   return (
-    <form className="p-5 border bg-white shadow-lg flex flex-col">
+    <form action={dispatch} className="p-5 border bg-white shadow-lg flex flex-col">
       <label className="form-control w-full max-w-xs">
         <div className="label">
           <span className="label-text">Nombre del producto</span>
@@ -24,8 +23,8 @@ export default async function FormCreateProducto() {
           placeholder="Ingrese aqui"
           className="input input-bordered w-full max-w-xs"
           name="title"
-        />        
-        <ErrorMessage />
+        />
+        {errors.title ? <ErrorMessage message={errors.title} /> : ''}
       </label>
       <label className="form-control">
         <div className="label">
@@ -36,7 +35,7 @@ export default async function FormCreateProducto() {
           placeholder="Bio"
           name="description"
         ></textarea>
-        <ErrorMessage />
+        {errors.description ? <ErrorMessage message={errors.description} /> : ""}
       </label>
       <label className="form-control w-full max-w-xs">
         <div className="label">
@@ -48,7 +47,7 @@ export default async function FormCreateProducto() {
           className="input input-bordered w-full max-w-xs"
           name="quantity"
         />
-        <ErrorMessage />
+        {errors.quantity ? <ErrorMessage  message={errors.quantity}/> : ""}
       </label>
       <label className="form-control w-full max-w-xs">
         <div className="label">
@@ -60,7 +59,7 @@ export default async function FormCreateProducto() {
           className="input input-bordered w-full max-w-xs"
           name="price"
         />
-        <ErrorMessage />
+        {errors.price ? <ErrorMessage  message={errors.price} /> : ""}
       </label>
       <div className="form-control">
         <label className="label cursor-pointer">
@@ -73,12 +72,12 @@ export default async function FormCreateProducto() {
           <span className="label-text">Seleccione la categoria</span>
         </div>
         <CategoryControl categories={categories} />
-        <ErrorMessage />
+        {errors.category ? <ErrorMessage  message={errors.category}/> : ""}
       </label>
-      <div className="flex flex-row justify-end space-x-2"> 
+      <div className="flex flex-row justify-end space-x-2">
         <button className="btn btn-primary w-1/5">Guardar</button>
         <Link href={"/dashboard"} className="btn btn-error w-1/5">
-          Guardar
+          Cancelar
         </Link>
       </div>
     </form>
