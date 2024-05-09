@@ -23,8 +23,8 @@ model product {
   quantity    Int
   price       Decimal
   published   Boolean  @default(false)
-  category    category @relation(fields: [cateogyId], references: [id])
-  cateogyId   Int
+  category    category @relation(fields: [categoryId], references: [id])
+  categoryId   Int
 }
 
 model category {

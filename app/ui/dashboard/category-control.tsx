@@ -6,7 +6,7 @@ export default function CategoryControl({
   categories: category[] | undefined
 }) {
     return (
-    <select className="select select-bordered w-full max-w-xs">
+    <select className="select select-bordered w-full max-w-xs" name="categoryId">
         {categories?.map((category: category) => {
             return <option key={category.id} value={category.id}>{category.name}</option>
         })}

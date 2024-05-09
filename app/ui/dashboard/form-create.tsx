@@ -24,7 +24,7 @@ export default function FormCreateProducto({categories}: {categories: {id: numbe
           className="input input-bordered w-full max-w-xs"
           name="title"
         />
-        {errors.title ? <ErrorMessage message={errors.title} /> : ''}
+        {errors?.title ? <ErrorMessage message={errors.title} /> : ''}
       </label>
       <label className="form-control">
         <div className="label">
@@ -35,7 +35,7 @@ export default function FormCreateProducto({categories}: {categories: {id: numbe
           placeholder="Bio"
           name="description"
         ></textarea>
-        {errors.description ? <ErrorMessage message={errors.description} /> : ""}
+        {errors?.description ? <ErrorMessage message={errors.description} /> : ""}
       </label>
       <label className="form-control w-full max-w-xs">
         <div className="label">
@@ -47,7 +47,7 @@ export default function FormCreateProducto({categories}: {categories: {id: numbe
           className="input input-bordered w-full max-w-xs"
           name="quantity"
         />
-        {errors.quantity ? <ErrorMessage  message={errors.quantity}/> : ""}
+        {errors?.quantity ? <ErrorMessage  message={errors.quantity}/> : ""}
       </label>
       <label className="form-control w-full max-w-xs">
         <div className="label">
@@ -59,7 +59,7 @@ export default function FormCreateProducto({categories}: {categories: {id: numbe
           className="input input-bordered w-full max-w-xs"
           name="price"
         />
-        {errors.price ? <ErrorMessage  message={errors.price} /> : ""}
+        {errors?.price ? <ErrorMessage  message={errors.price} /> : ""}
       </label>
       <div className="form-control">
         <label className="label cursor-pointer">
@@ -72,7 +72,7 @@ export default function FormCreateProducto({categories}: {categories: {id: numbe
           <span className="label-text">Seleccione la categoria</span>
         </div>
         <CategoryControl categories={categories} />
-        {errors.category ? <ErrorMessage  message={errors.category}/> : ""}
+        {errors?.category ? <ErrorMessage  message={errors.category}/> : ""}
       </label>
       <div className="flex flex-row justify-end space-x-2">
         <button className="btn btn-primary w-1/5">Guardar</button>
