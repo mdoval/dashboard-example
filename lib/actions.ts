@@ -1,5 +1,9 @@
+'use server'
+
 import { ProductSchema, ProductoFormErrors } from "@/types/types";
 import prisma from '@/db/prisma'
+import { revalidatePath } from "next/cache";
+import { redirect } from 'next/navigation'
 
 export async function createProduct(prevState: ProductoFormErrors | undefined, formData: FormData ) {
     const productoSchema = ProductSchema
@@ -22,6 +26,8 @@ export async function createProduct(prevState: ProductoFormErrors | undefined, f
         const product = await prisma.product.create({data: validationData.data})        
         console.log(product)
     } catch( error ) {
-        console.log("Error")
+        console.log(error)
     }
+    revalidatePath("/dashboard")
+    redirect("/dashboard")
 }
