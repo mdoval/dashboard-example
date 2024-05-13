@@ -61,9 +61,9 @@ export default function FormCreateProducto({categories}: {categories: {id: numbe
         />
         {errors?.price ? <ErrorMessage  message={errors.price} /> : ""}
       </label>
-      <div className="form-control">
+      <div className="form-control w-1/5 mt-4 mb-4">
         <label className="label cursor-pointer">
-          <span className="label-text">Publicarlo ?</span>
+          <span className="label-text">El Articulo esta visible ?</span>
           <PublishedControl />
         </label>
       </div>

@@ -4,6 +4,8 @@ import { ProductSchema, ProductoFormErrors } from "@/types/types";
 import prisma from '@/db/prisma'
 import { revalidatePath } from "next/cache";
 import { redirect } from 'next/navigation'
+import path from "path";
+import { writeFile } from "fs/promises";
 
 export async function createProduct(prevState: ProductoFormErrors | undefined, formData: FormData ) {
     const productoSchema = ProductSchema
@@ -31,3 +33,33 @@ export async function createProduct(prevState: ProductoFormErrors | undefined, f
     revalidatePath("/dashboard")
     redirect("/dashboard")
 }
+
+export async function uploadPhoto(formData: FormData) {
+    const idproducto: string | undefined = formData.get('id')?.toString()
+    const file: File | null = formData.get('file') as unknown as File
+    if(!file) console.log("El archivo no subio")
+    const fechaHoraActual: string = new Date().toISOString().replace(/\D/g, '').slice(0, 14);
+    const nombre = idproducto+fechaHoraActual+".jpg"
+    //console.log(nombre)
+    const bytes = await file.arrayBuffer();
+    const buffer = Buffer.from(bytes);
+    //const filePath = path.join(process.cwd(), "public/images/propiedades", file.name);
+    const filePath = path.join(process.cwd(), "public/images", nombre);
+    //console.log(filePath)
+    try {
+      let idp: number = 0
+      if(idproducto != undefined) idp = parseInt(idproducto)
+      await writeFile(filePath, buffer);
+      await prisma.product.update({
+        where:{ id : idp }, 
+        data: {
+          image: nombre          
+        }
+      })
+      //console.log('Archivo Subido')
+    } catch(error) {
+      console.log(error)
+    }
+    revalidatePath(`/dashboard/productos/${idproducto}/edit`);
+    redirect(`/dashboard/productos/${idproducto}/edit`);
+  }
