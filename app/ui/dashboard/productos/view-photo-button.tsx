@@ -1,7 +1,7 @@
 "use client";
 
 import { TfiGallery } from "react-icons/tfi";
-import Modal from "./modal";
+import Modal from "../modal";
 import { useState } from "react";
 import Image from "next/image";
 

@@ -5,7 +5,7 @@ import CategoryControl from "./category-control";
 import Link from "next/link";
 import { useFormState } from "react-dom";
 import { createProduct } from "@/lib/actions";
-import { ErrorMessage } from "./errors";
+import { ErrorMessage } from "../errors";
 import { ProductoFormErrors } from "@/types/types";
 
 export default function FormCreateProducto({categories}: {categories: {id: number, name: string}[] | undefined}) {

@@ -1,4 +1,4 @@
-import FormCreateProducto from "@/app/ui/dashboard/form-create";
+import FormCreateProducto from "@/app/ui/dashboard/productos/form-create";
 import Link from "next/link";
 import { IoArrowBack } from "react-icons/io5";
 import { fetchCategories } from "@/lib/data";

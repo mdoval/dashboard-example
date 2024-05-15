@@ -1,7 +1,7 @@
 "use client";
 
 import { MdOutlinePhotoCamera } from "react-icons/md";
-import Modal from "./modal";
+import Modal from "../modal";
 import { useState } from "react";
 import { uploadPhoto } from "@/lib/actions";
 

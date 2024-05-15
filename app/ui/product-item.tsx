@@ -2,7 +2,6 @@ import { product } from "@prisma/client";
 import Image from "next/image"
 
 export function ProductItem({ product }: { product: product }) {
-  console.log(product)
   return (
     <div className="card w-80 h-80 bg-base-100 shadow-xl m-2">
       <figure className="h-96">

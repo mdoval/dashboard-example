@@ -5,7 +5,6 @@ export default function ProductosTable({productos}: {productos: product[] | unde
   return (
     <div className="overflow-x-auto">
       <table className="table">
-        {/* head */}
         <thead>
           <tr>
             <th></th>
