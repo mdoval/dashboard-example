@@ -53,13 +53,13 @@ export async function uploadPhoto(formData: FormData) {
       await prisma.product.update({
         where:{ id : idp }, 
         data: {
-          image: nombre          
+          image: `/images/${nombre}`
         }
       })
       //console.log('Archivo Subido')
     } catch(error) {
       console.log(error)
     }
-    revalidatePath(`/dashboard/productos/${idproducto}/edit`);
-    redirect(`/dashboard/productos/${idproducto}/edit`);
+    revalidatePath(`/dashboard`);
+    redirect(`/dashboard`);
   }

@@ -2,6 +2,7 @@ import EditProducto from "./edit-producto-button";
 import DeleteProducto from "./delete-producto-button";
 import { product } from "@prisma/client";
 import UploadPhotoButton from "./upload-photo-button";
+import ViewPhotoButton from "./view-photo-button";
 
 export default function ProductoItemTable({
   producto,
@@ -17,7 +18,7 @@ export default function ProductoItemTable({
       <td className="flex items-center justify-center">
         <EditProducto id={producto.id} />
         <DeleteProducto />
-        <UploadPhotoButton id={producto.id} />
+        {producto.image === "/images/noimage.jpg"? <UploadPhotoButton id={producto.id} /> : <ViewPhotoButton id={producto.id} urlImage={producto.image}  />}
       </td>
     </tr>
   );
