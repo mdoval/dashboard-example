@@ -19,7 +19,6 @@ export async function createProduct(prevState: ProductoFormErrors | undefined, f
 
     const validationData = productoSchema.safeParse(newProduct)    
     if(!validationData.success) {
-        //console.log(validationData.error?.flatten().fieldErrors)
         const errors: ProductoFormErrors = validationData.error.flatten().fieldErrors
         return errors    
     }
@@ -32,6 +31,38 @@ export async function createProduct(prevState: ProductoFormErrors | undefined, f
     }
     revalidatePath("/dashboard/productos")
     redirect("/dashboard/productos")
+}
+
+export async function updateProduct(id: number | undefined, prevState: ProductoFormErrors | undefined, formData: FormData) {
+  const productoSchema = ProductSchema
+    const newProduct = {
+        title: formData.get('title'),
+        description: formData.get('description'),
+        quantity: parseInt(formData.get('quantity') as string),
+        price: parseFloat(formData.get('price') as string),
+        categoryId: parseInt(formData.get('categoryId') as string)
+    }
+
+    const validationData = productoSchema.safeParse(newProduct)
+    if(!validationData.success) {
+        const errors: ProductoFormErrors = validationData.error.flatten().fieldErrors
+        return errors    
+    }
+
+    console.log(id)
+    console.log(validationData)
+    try {
+        const newProduct = await prisma.product.update({
+          where: {
+            id: id
+          },
+          data: validationData.data
+        })
+    } catch( error ) {
+      console.log(error)
+    }
+    revalidatePath("/dashboard/productos")
+    redirect("/dashboard/productos")    
 }
 
 export async function uploadPhoto(formData: FormData) {

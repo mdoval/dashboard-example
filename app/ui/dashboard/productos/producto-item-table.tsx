@@ -7,12 +7,14 @@ import ViewPhotoButton from "./view-photo-button";
 export default function ProductoItemTable({
   producto,
 }: {
-  producto: product;
+  producto: any;
 }) {
+  
   return (
     <tr className="bg-base-200">
       <th>{producto.id}</th>
       <td>{producto.title}</td>
+      <td>{producto.category.name}</td>
       <td>{producto.quantity}</td>
       <td>{producto.price.toString()}</td>
       <td className="flex items-center justify-center">

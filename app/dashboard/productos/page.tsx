@@ -3,9 +3,12 @@ import Link from "next/link";
 import { GrCatalog } from "react-icons/gr";
 import ProductosTable from "../../ui/dashboard/productos/table-productos";
 import CreateProducto from "../../ui/dashboard/productos/create-producto-button";
+import InputSearch from "@/app/ui/search";
 
-export default async function ProductosPage() {
-  const productos = await fetchProducts()
+export default async function ProductosPage({ searchParams, }: { searchParams?: { query?: string; page?: string };}) {
+  const query = searchParams?.query || "";
+  const currentPage = Number(searchParams?.page) || 1;  
+  const productos = await fetchProducts(query, currentPage)
 
   return (
     <main className="w-full h-full p-4">
@@ -18,8 +21,8 @@ export default async function ProductosPage() {
           <h1 className=" text-5xl m-4 pr-4">Catalogo de Productos</h1>
           <CreateProducto />
       </div>
-      <hr />
       <div className="flex flex-col w-full h-full"  >
+        <InputSearch />
         <ProductosTable productos={productos} />
       </div>
     </main>
