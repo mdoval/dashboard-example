@@ -1,7 +1,7 @@
 import { product } from "@prisma/client";
 import ProductoItemTable from "./producto-item-table";
 
-export default function ProductosTable({productos}: {productos: product[] | undefined}) {
+export default function ProductosTable({productos}: {productos: any[] | undefined}) {
   return (
     <div className="overflow-x-auto">
       <table className="table">

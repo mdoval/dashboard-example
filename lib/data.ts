@@ -1,9 +1,11 @@
 import prisma from "@/db/prisma"
+import { unstable_noStore as noStore } from 'next/cache';
 
 const ITEMS_PER_PAGE = 8;
 
 export async function fetchProducts(query: string, currentPage: number) {
     const SKIP = (currentPage - 1) * ITEMS_PER_PAGE
+    noStore();
 
     try{
         const productos = await prisma.product.findMany({
@@ -28,6 +30,8 @@ export async function fetchProducts(query: string, currentPage: number) {
 }
 
 export async function productsCountPages(query: string) {
+    noStore();
+
     try{
         const productos = await prisma.product.findMany({
             where: {
@@ -52,6 +56,8 @@ export async function productsCountPages(query: string) {
 }
 
 export async function fetchProduct(id: number) {
+    noStore();
+
     try {
         const producto = await prisma.product.findUnique({
             where: {
@@ -68,6 +74,8 @@ export async function fetchProduct(id: number) {
 }
 
 export async function fetchCategories() {
+    noStore();
+    
     try {
         const categories = await prisma.category.findMany()
         if(!categories) {
