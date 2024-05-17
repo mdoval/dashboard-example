@@ -12,6 +12,7 @@ export default function ProductosTable({productos}: {productos: product[] | unde
             <th>Categoria</th>
             <th>Cantidad</th>
             <th>Precio</th>
+            <th>Publicado?</th>
             <th className="flex justify-center">Acciones</th>
           </tr>
         </thead>

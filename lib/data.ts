@@ -1,7 +1,8 @@
 import prisma from "@/db/prisma"
 
+const ITEMS_PER_PAGE = 8;
+
 export async function fetchProducts(query: string, currentPage: number) {
-    const ITEMS_PER_PAGE = 8;
     const SKIP = (currentPage - 1) * ITEMS_PER_PAGE
 
     try{
@@ -26,8 +27,32 @@ export async function fetchProducts(query: string, currentPage: number) {
     }
 }
 
-export async function fetchProduct(id: number) {
+export async function productsCountPages(query: string) {
     try{
+        const productos = await prisma.product.findMany({
+            where: {
+                title: {
+                    contains: query
+                }
+            },
+            include: {
+                category: true
+            },
+        })
+        if(!productos) {
+            throw new Error('Error en la consulta de productos')
+        }
+        const pages = (Math.ceil(productos.length / ITEMS_PER_PAGE))
+//        console.log(productos.length / ITEMS_PER_PAGE)
+//        console.log(pages)
+        return pages
+    } catch( error ) {
+        console.log(error)
+    }
+}
+
+export async function fetchProduct(id: number) {
+    try {
         const producto = await prisma.product.findUnique({
             where: {
                 id

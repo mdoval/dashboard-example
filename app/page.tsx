@@ -1,11 +1,16 @@
-import { fetchProducts } from "@/lib/data";
+import { fetchProducts, productsCountPages } from "@/lib/data";
 import { ProductItem } from "./ui/product-item";
 import Link from "next/link";
 import { MdOutlineDashboardCustomize } from "react-icons/md";
 import { product } from "@prisma/client";
+import InputSearch from "./ui/search";
+import PaginationButtons from "./ui/pagination";
 
-export default async function Home() {
-  const productos = await fetchProducts();
+export default async function Home({ searchParams, }: { searchParams?: { query?: string; page?: string };}) {
+  const query = searchParams?.query || "";
+  const currentPage = Number(searchParams?.page) || 1;  
+  const productos = await fetchProducts(query, currentPage)
+  const pages = await productsCountPages(query)
 
   return (
     <main className="w-full h-full p-4">
@@ -16,10 +21,14 @@ export default async function Home() {
       </div>
       <h1 className=" text-5xl m-4">Catalogo de Productos</h1>
       <hr />
-      <div className="flex flex-wrap w-full h-full justify-left">
+      <InputSearch />
+      <div className="flex flex-wrap w-full full justify-left">
         {productos?.map((producto: product) => {
           return <ProductItem key={producto.id} product={producto} />;
-        })}
+        })}        
+      </div>
+      <div className="flex justify-center">
+      <PaginationButtons pages={pages} pageActive={currentPage} />
       </div>
     </main>
   );
