@@ -4,8 +4,8 @@ import { unstable_noStore as noStore } from 'next/cache';
 const ITEMS_PER_PAGE = 8;
 
 export async function fetchProducts(query: string, currentPage: number) {
-    const SKIP = (currentPage - 1) * ITEMS_PER_PAGE
     noStore();
+    const SKIP = (currentPage - 1) * ITEMS_PER_PAGE
 
     try{
         const productos = await prisma.product.findMany({
@@ -23,6 +23,8 @@ export async function fetchProducts(query: string, currentPage: number) {
         if(!productos) {
             throw new Error('Error en la consulta de productos')
         }
+        //console.log(productos)
+        //console.log("************************************************************************************")
         return productos
     } catch( error ) {
         console.log(error)
@@ -57,7 +59,6 @@ export async function productsCountPages(query: string) {
 
 export async function fetchProduct(id: number) {
     noStore();
-
     try {
         const producto = await prisma.product.findUnique({
             where: {

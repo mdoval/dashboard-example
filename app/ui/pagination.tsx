@@ -7,15 +7,16 @@ export default function PaginationButtons({pages, pageActive}: {pages: number | 
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const { replace } = useRouter();
+  const router = useRouter()
+  
 
   function handleChangePage (page: number) {  
     console.log(page)
     const params = new URLSearchParams(searchParams);
-    //let actualPage = params.get('page')
-    //console.log(actualPage)
     if(page) {
       params.set("page", page.toString());
     }
+    router.refresh()
     replace(`${pathname}?${params.toString()}`);
   }
   

@@ -57,9 +57,6 @@ export async function updateProduct(
       validationData.error.flatten().fieldErrors;
     return errors;
   }
-
-  // console.log(id)
-  // console.log(validationData)
   try {
     const newProduct = await prisma.product.update({
       where: {
@@ -115,7 +112,7 @@ export async function publicarProducto(id: number, estado: boolean) {
       },
       data: {published: estado}
     });
-    return productoActualizado
+    return JSON.stringify(productoActualizado)
   } catch (error) {
     console.log(error);
   }
