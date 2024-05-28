@@ -9,9 +9,9 @@ export default async function EditarProductoPage({
   params: { id: string };
 }) {
   const idProducto = parseInt(params.id)
-  const producto = await fetchProduct(idProducto);
+  const producto = await fetchProduct(idProducto)
   const categories = await fetchCategories();
-
+  
   return (
     <div className="w-full h-full p-4">
       <div className="w-full flex justify-end">

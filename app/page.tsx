@@ -1,4 +1,4 @@
-import { fetchProducts, productsCountPages } from "@/lib/data";
+import { fetchPublishedProducts, productsPublishedCountPages } from "@/lib/data";
 import { ProductItem } from "./ui/product-item";
 import Link from "next/link";
 import { MdOutlineDashboardCustomize } from "react-icons/md";
@@ -9,8 +9,8 @@ import PaginationButtons from "./ui/pagination";
 export default async function Home({ searchParams, }: { searchParams?: { query?: string; page?: string };}) {
   const query = searchParams?.query || "";
   const currentPage = Number(searchParams?.page) || 1;  
-  const productos = await fetchProducts(query, currentPage)
-  const pages = await productsCountPages(query)
+  const productos = await fetchPublishedProducts(query, currentPage)
+  const pages = await productsPublishedCountPages(query)
 
   return (
     <main className="w-full h-full p-4">

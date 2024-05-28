@@ -8,12 +8,19 @@ import { createProduct } from "@/lib/actions";
 import { ErrorMessage } from "../errors";
 import { ProductoFormErrors } from "@/types/types";
 
-export default function FormCreateProducto({categories}: {categories: {id: number, name: string}[] | undefined}) {
-  const initalValue: ProductoFormErrors = {}
+export default function FormCreateProducto({
+  categories,
+}: {
+  categories: { id: number; name: string }[] | undefined;
+}) {
+  const initalValue: ProductoFormErrors = {};
   const [errors, dispatch] = useFormState(createProduct, initalValue);
 
   return (
-    <form action={dispatch} className="p-5 border bg-white shadow-lg flex flex-col">
+    <form
+      action={dispatch}
+      className="p-5 border bg-white shadow-lg flex flex-col"
+    >
       <label className="form-control w-full max-w-xs">
         <div className="label">
           <span className="label-text">Nombre del producto</span>
@@ -24,7 +31,7 @@ export default function FormCreateProducto({categories}: {categories: {id: numbe
           className="input input-bordered w-full max-w-xs"
           name="title"
         />
-        {errors?.title ? <ErrorMessage message={errors.title} /> : ''}
+        {errors?.title ? <ErrorMessage message={errors.title} /> : ""}
       </label>
       <label className="form-control">
         <div className="label">
@@ -35,7 +42,11 @@ export default function FormCreateProducto({categories}: {categories: {id: numbe
           placeholder="Bio"
           name="description"
         ></textarea>
-        {errors?.description ? <ErrorMessage message={errors.description} /> : ""}
+        {errors?.description ? (
+          <ErrorMessage message={errors.description} />
+        ) : (
+          ""
+        )}
       </label>
       <label className="form-control w-full max-w-xs">
         <div className="label">
@@ -47,7 +58,7 @@ export default function FormCreateProducto({categories}: {categories: {id: numbe
           className="input input-bordered w-full max-w-xs"
           name="quantity"
         />
-        {errors?.quantity ? <ErrorMessage  message={errors.quantity}/> : ""}
+        {errors?.quantity ? <ErrorMessage message={errors.quantity} /> : ""}
       </label>
       <label className="form-control w-full max-w-xs">
         <div className="label">
@@ -59,12 +70,17 @@ export default function FormCreateProducto({categories}: {categories: {id: numbe
           className="input input-bordered w-full max-w-xs"
           name="price"
         />
-        {errors?.price ? <ErrorMessage  message={errors.price} /> : ""}
+        {errors?.price ? <ErrorMessage message={errors.price} /> : ""}
       </label>
       <div className="form-control w-1/5 mt-4 mb-4">
         <label className="label cursor-pointer">
           <span className="label-text">El Articulo esta visible ?</span>
-          <PublishedControl />
+          <input
+            type="checkbox"
+            className="toggle"
+            name="published"
+            defaultChecked={false}
+          />
         </label>
       </div>
       <label className="form-control w-full max-w-xs">
@@ -72,7 +88,7 @@ export default function FormCreateProducto({categories}: {categories: {id: numbe
           <span className="label-text">Seleccione la categoria</span>
         </div>
         <CategoryControl categories={categories} />
-        {errors?.category ? <ErrorMessage  message={errors.category}/> : ""}
+        {errors?.category ? <ErrorMessage message={errors.category} /> : ""}
       </label>
       <div className="flex flex-row justify-end space-x-2">
         <button className="btn btn-primary w-1/5">Guardar</button>

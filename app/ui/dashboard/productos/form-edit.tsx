@@ -1,21 +1,29 @@
 "use client";
 
-import PublishedControl from "./published-control";
 import CategoryControl from "./category-control";
 import Link from "next/link";
 import { useFormState } from "react-dom";
 import { updateProduct } from "@/lib/actions";
 import { ErrorMessage } from "../errors";
 import { ProductoFormErrors } from "@/types/types";
-import { product } from "@prisma/client";
 
-export default function FormEditProducto({categories, producto}: {categories: {id: number, name: string}[] | undefined, producto: product | undefined}) {
-  const initalValue: ProductoFormErrors = {}
-  const updateWithId = updateProduct.bind(null, producto?.id)
+export default function FormEditProducto({
+  categories,
+  producto,
+}: {
+  categories: { id: number; name: string }[] | undefined;
+  producto: any;
+}) {
+  //console.log(producto)
+  const initalValue: ProductoFormErrors = {};
+  const updateWithId = updateProduct.bind(null, producto?.id);
   const [errors, dispatch] = useFormState(updateWithId, initalValue);
 
   return (
-    <form action={dispatch} className="p-5 border bg-white shadow-lg flex flex-col">
+    <form
+      action={dispatch}
+      className="p-5 border bg-white shadow-lg flex flex-col"
+    >
       <label className="form-control w-full max-w-xs">
         <div className="label">
           <span className="label-text">Nombre del producto</span>
@@ -27,7 +35,7 @@ export default function FormEditProducto({categories, producto}: {categories: {i
           name="title"
           defaultValue={producto?.title}
         />
-        {errors?.title ? <ErrorMessage message={errors.title} /> : ''}
+        {errors?.title ? <ErrorMessage message={errors.title} /> : ""}
       </label>
       <label className="form-control">
         <div className="label">
@@ -39,7 +47,11 @@ export default function FormEditProducto({categories, producto}: {categories: {i
           name="description"
           defaultValue={producto?.description}
         ></textarea>
-        {errors?.description ? <ErrorMessage message={errors.description} /> : ""}
+        {errors?.description ? (
+          <ErrorMessage message={errors.description} />
+        ) : (
+          ""
+        )}
       </label>
       <label className="form-control w-full max-w-xs">
         <div className="label">
@@ -52,7 +64,7 @@ export default function FormEditProducto({categories, producto}: {categories: {i
           name="quantity"
           defaultValue={producto?.quantity}
         />
-        {errors?.quantity ? <ErrorMessage  message={errors.quantity}/> : ""}
+        {errors?.quantity ? <ErrorMessage message={errors.quantity} /> : ""}
       </label>
       <label className="form-control w-full max-w-xs">
         <div className="label">
@@ -63,14 +75,19 @@ export default function FormEditProducto({categories, producto}: {categories: {i
           placeholder="0.00"
           className="input input-bordered w-full max-w-xs"
           name="price"
-          defaultValue={producto?.price.toString()}
+          defaultValue={producto?.price}
         />
-        {errors?.price ? <ErrorMessage  message={errors.price} /> : ""}
+        {errors?.price ? <ErrorMessage message={errors.price} /> : ""}
       </label>
       <div className="form-control w-1/5 mt-4 mb-4">
         <label className="label cursor-pointer">
           <span className="label-text">El Articulo esta visible ?</span>
-          <PublishedControl />
+          <input
+            type="checkbox"
+            className="toggle"
+            name="published"
+            defaultChecked={producto?.published}           
+          />
         </label>
       </div>
       <label className="form-control w-full max-w-xs">
@@ -78,7 +95,7 @@ export default function FormEditProducto({categories, producto}: {categories: {i
           <span className="label-text">Seleccione la categoria</span>
         </div>
         <CategoryControl categories={categories} />
-        {errors?.category ? <ErrorMessage  message={errors.category}/> : ""}
+        {errors?.category ? <ErrorMessage message={errors.category} /> : ""}
       </label>
       <div className="flex flex-row justify-end space-x-2">
         <button className="btn btn-primary w-1/5">Guardar</button>

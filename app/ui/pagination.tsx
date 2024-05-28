@@ -6,18 +6,16 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 export default function PaginationButtons({pages, pageActive}: {pages: number | undefined, pageActive: number}) {
   const searchParams = useSearchParams();
   const pathname = usePathname();
-  const { replace } = useRouter();
-  const router = useRouter()
-  
+  const { replace , refresh} = useRouter();
 
   function handleChangePage (page: number) {  
-    console.log(page)
+    //console.log(page)
     const params = new URLSearchParams(searchParams);
     if(page) {
       params.set("page", page.toString());
     }
-    router.refresh()
     replace(`${pathname}?${params.toString()}`);
+    refresh()
   }
   
   function buttons(pages: number | undefined, pageActive: number) {

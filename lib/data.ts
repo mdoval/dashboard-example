@@ -2,6 +2,7 @@ import prisma from "@/db/prisma"
 import { unstable_noStore as noStore } from 'next/cache';
 
 const ITEMS_PER_PAGE = 8;
+const ITEMS_PUBLISHED_PER_PAGE = 10;
 
 export async function fetchProducts(query: string, currentPage: number) {
     noStore();
@@ -23,8 +24,35 @@ export async function fetchProducts(query: string, currentPage: number) {
         if(!productos) {
             throw new Error('Error en la consulta de productos')
         }
-        //console.log(productos)
-        //console.log("************************************************************************************")
+        return productos
+    } catch( error ) {
+        console.log(error)
+    }
+}
+
+export async function fetchPublishedProducts(query: string, currentPage: number) {
+    noStore();
+    const SKIP = (currentPage - 1) * ITEMS_PUBLISHED_PER_PAGE
+
+    try{
+        const productos = await prisma.product.findMany({
+            where: {
+                title: {
+                    contains: query
+                },
+                published: {
+                    equals: true
+                }
+            },
+            include: {
+                category: true
+            },
+            take: ITEMS_PUBLISHED_PER_PAGE,
+            skip: SKIP
+        })        
+        if(!productos) {
+            throw new Error('Error en la consulta de productos')
+        }
         return productos
     } catch( error ) {
         console.log(error)
@@ -57,6 +85,33 @@ export async function productsCountPages(query: string) {
     }
 }
 
+export async function productsPublishedCountPages(query: string) {
+    noStore();
+
+    try{
+        const productos = await prisma.product.findMany({
+            where: {
+                title: {
+                    contains: query
+                },
+                published: {
+                    equals: true
+                }
+            },
+            include: {
+                category: true
+            },
+        })
+        if(!productos) {
+            throw new Error('Error en la consulta de productos')
+        }
+        const pages = (Math.ceil(productos.length / ITEMS_PUBLISHED_PER_PAGE))
+        return pages
+    } catch( error ) {
+        console.log(error)
+    }
+}
+
 export async function fetchProduct(id: number) {
     noStore();
     try {
@@ -83,6 +138,65 @@ export async function fetchCategories() {
             throw new Error('Error en la consulta de cateogiras')
         }
         return categories
+    } catch( error ) {
+        console.log(error)
+    }
+}
+
+export async function fetchCategoriesFiltered(query: string, currentPage: number) {
+    noStore();
+    const SKIP = (currentPage - 1) * ITEMS_PER_PAGE
+
+    try {
+        const categorias = await prisma.category.findMany({
+            where: {
+                name: {
+                    contains: query
+                }
+            },
+            take: ITEMS_PER_PAGE,
+            skip: SKIP
+        })
+        return categorias
+    } catch(error) {
+        console.log(error)
+    }
+
+}
+
+export async function categoriasCountPages(query: string) {
+    noStore();
+
+    try{
+        const categorias = await prisma.category.findMany({
+            where: {
+                name: {
+                    contains: query
+                }
+            },
+        })
+        if(!categorias) {
+            throw new Error('Error en la consulta de productos')
+        }
+        const pages = (Math.ceil(categorias.length / ITEMS_PER_PAGE))
+        return pages
+    } catch( error ) {
+        console.log(error)
+    }
+}
+
+export async function fetchCategoria(id: number) {
+    noStore();
+    try {
+        const categoria = await prisma.category.findUnique({
+            where: {
+                id
+            }
+        })
+        if(!categoria) {
+            throw new Error('Error en la consulta de productos')
+        }
+        return categoria
     } catch( error ) {
         console.log(error)
     }

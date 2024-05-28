@@ -1,6 +1,6 @@
 "use server";
 
-import { ProductSchema, ProductoFormErrors } from "@/types/types";
+import { CategoriaFormErrors, CategoriaSchema, ProductSchema, ProductoFormErrors } from "@/types/types";
 import prisma from "@/db/prisma";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
@@ -16,6 +16,7 @@ export async function createProduct(
     title: formData.get("title"),
     description: formData.get("description"),
     quantity: parseInt(formData.get("quantity") as string),
+    published: formData.get("published") === "on",
     price: parseFloat(formData.get("price") as string),
     categoryId: parseInt(formData.get("categoryId") as string),
   };
@@ -23,7 +24,7 @@ export async function createProduct(
   const validationData = productoSchema.safeParse(newProduct);
   if (!validationData.success) {
     const errors: ProductoFormErrors =
-      validationData.error.flatten().fieldErrors;
+    validationData.error.flatten().fieldErrors;
     return errors;
   }
 
@@ -37,6 +38,29 @@ export async function createProduct(
   redirect("/dashboard/productos");
 }
 
+export async function createCategory(
+  prevState: CategoriaFormErrors | undefined,
+  formData: FormData
+) {
+  const categoriaSchema = CategoriaSchema
+  const nuevaCategoria = {
+    name: formData.get("name")    
+  }
+  const validationData = categoriaSchema.safeParse(nuevaCategoria)
+  if(!validationData.success) {
+    const errors: CategoriaFormErrors =
+    validationData.error.flatten().fieldErrors;
+    return errors;    
+  }
+  try {
+    const categoria = await prisma.category.create({ data: validationData.data });
+  } catch (error) {
+    console.log(error);
+  }
+  revalidatePath("/dashboard/categorias");
+  redirect("/dashboard/categorias");
+}
+
 export async function updateProduct(
   id: number | undefined,
   prevState: ProductoFormErrors | undefined,
@@ -48,6 +72,7 @@ export async function updateProduct(
     description: formData.get("description"),
     quantity: parseInt(formData.get("quantity") as string),
     price: parseFloat(formData.get("price") as string),
+    published: formData.get("published") === "on",
     categoryId: parseInt(formData.get("categoryId") as string),
   };
 
@@ -64,11 +89,43 @@ export async function updateProduct(
       },
       data: validationData.data,
     });
+    console.log(newProduct);
   } catch (error) {
     console.log(error);
   }
   revalidatePath("/dashboard/productos");
   redirect("/dashboard/productos");
+}
+
+export async function updateCategoria(
+  id: number | undefined,
+  prevState: CategoriaFormErrors | undefined,
+  formData: FormData
+) {
+  const categoriaSchema = CategoriaSchema;
+  const newCategoria = {
+    name: formData.get("name"),
+  };
+
+  const validationData = categoriaSchema.safeParse(newCategoria);
+  if (!validationData.success) {
+    const errors: CategoriaFormErrors =
+    validationData.error.flatten().fieldErrors;
+    return errors;
+  }
+  try {
+    const newCategoria = await prisma.category.update({
+      where: {
+        id: id,
+      },
+      data: validationData.data,
+    });
+    console.log(newCategoria);
+  } catch (error) {
+    console.log(error);
+  }
+  revalidatePath("/dashboard/categorias");
+  redirect("/dashboard/categorias");
 }
 
 export async function uploadPhoto(formData: FormData) {
@@ -110,10 +167,23 @@ export async function publicarProducto(id: number, estado: boolean) {
       where: {
         id,
       },
-      data: {published: estado}
+      data: { published: estado },
     });
-    return JSON.stringify(productoActualizado)
+    return JSON.stringify(productoActualizado);
   } catch (error) {
     console.log(error);
+  }
+}
+
+export async function deleteCategoria(id: number) {
+  try {
+    const categoriaBorrada = await prisma.category.delete({
+      where: {
+        id
+      }
+    })
+    return categoriaBorrada
+  } catch( error ) {
+    console.log(error)
   }
 }

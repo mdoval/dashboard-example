@@ -5,7 +5,6 @@ import ViewPhotoButton from "./view-photo-button";
 import PublishedControl from "./published-control";
 
 export default function ProductoItemTable({ producto }: { producto: any }) {
-  //console.log(producto)
   return (
     <tr className="bg-base-200">
       <th>{producto.id}</th>
