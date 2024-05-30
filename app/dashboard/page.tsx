@@ -1,8 +1,12 @@
 import Link from "next/link";
 import GraficoDeBarras from "./grafico-de-barras";
 import { GrCatalog } from "react-icons/gr";
+import { fetchProductosXCategoria } from "@/lib/data";
 
-export default function DashboardPage() {
+export default async function DashboardPage() {
+  const categoriasXCantidad = await fetchProductosXCategoria()
+  console.log(categoriasXCantidad)
+  
   return (
     <main className="w-full h-full p-4">
       <div className="w-full flex justify-end">
