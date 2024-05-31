@@ -2,6 +2,7 @@ import Link from "next/link";
 import GraficoDeBarras from "./grafico-de-barras";
 import { GrCatalog } from "react-icons/gr";
 import { fetchProductosXCategoria } from "@/lib/data";
+import GraficoDeTorta from "./grafico-de-torta";
 
 export default async function DashboardPage() {
   const categoriasXCantidad = await fetchProductosXCategoria()
@@ -19,6 +20,7 @@ export default async function DashboardPage() {
       </div>
       <div className="flex flex-col w-1/3 bg-white p-2 shadow-lg border">
         <GraficoDeBarras />
+        <GraficoDeTorta datos={categoriasXCantidad} />
       </div>
     </main>
   );
