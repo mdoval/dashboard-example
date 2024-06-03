@@ -205,11 +205,15 @@ export async function fetchCategoria(id: number) {
 export async function fetchProductosXCategoria() {
     try {
        // const resultados = await prisma.$queryRaw`SELECT category.id, COUNT(product.id) as value, category.name as label FROM product  inner join category on product.categoryId = category.id GROUP BY category.name`
-       const resultados = await prisma.product.findMany(
+       const resultados = await prisma.category.findMany(
         {
-            include: {
-                category: true,
-            }           
+            select: {
+                _count: {
+                    select: {
+                        products: true
+                    }
+                }
+            }
         }
        )
         console.log(resultados)
