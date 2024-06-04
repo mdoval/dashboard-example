@@ -18,9 +18,9 @@ export default async function DashboardPage() {
       <div className="w-full flex items-center">
         <h1 className=" text-5xl m-4 pr-4">Dashboard</h1>
       </div>
-      <div className="flex flex-col w-1/3 bg-white p-2 shadow-lg border">
+      <div className="flex flex-wrap bg-white p-2 shadow-lg border w-full justify-center">
         <GraficoDeBarras />
-        <GraficoDeTorta datos={categoriasXCantidad} />
+        <GraficoDeTorta data={categoriasXCantidad} />
       </div>
     </main>
   );
