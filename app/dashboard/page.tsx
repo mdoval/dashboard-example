@@ -1,12 +1,11 @@
 import Link from "next/link";
-import GraficoDeBarras from "./grafico-de-barras";
+import GraficoDeBarras from "../ui/dashboard/grafico-de-barras";
 import { GrCatalog } from "react-icons/gr";
 import { fetchProductosXCategoria } from "@/lib/data";
-import GraficoDeTorta from "./grafico-de-torta";
+import GraficoDeTorta from "../ui/dashboard/grafico-de-torta";
 
 export default async function DashboardPage() {
   const categoriasXCantidad = await fetchProductosXCategoria()
-  console.log(categoriasXCantidad)
   
   return (
     <main className="w-full h-full p-4">

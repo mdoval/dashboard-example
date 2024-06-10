@@ -19,11 +19,3 @@ export default function GraficoDeTorta({ data }: { data: any }) {
     </div>
   );
 }
-
-/*series={[
-          {
-            data: datos,
-          },
-        ]}
-        width={400}
-      height={200}*/
