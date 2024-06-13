@@ -204,7 +204,7 @@ export async function fetchCategoria(id: number) {
 
 export async function fetchProductosXCategoria() {
     try {
-        const resultados:any = await prisma.$queryRaw`SELECT category.id, COUNT(product.id) as value, category.name as label FROM product  inner join category on product.categoryId = category.id GROUP BY category.name`
+        const resultados:any = await prisma.$queryRaw`SELECT category.id, COUNT(product.id) as value, category.name as label FROM product  inner join category on product.categoryId = category.id GROUP BY category.id, category.name`
         resultados.forEach((category: any) => {
             category.value = Number(category.value)
             category.label = category.label + " : " + category.value
