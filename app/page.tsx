@@ -5,6 +5,8 @@ import { MdOutlineDashboardCustomize } from "react-icons/md";
 import { product } from "@prisma/client";
 import InputSearch from "./ui/search";
 import PaginationButtons from "./ui/pagination";
+import { Suspense } from "react";
+import { CatalogoSkeleton } from "./ui/skeletons";
 
 export default async function Home({ searchParams, }: { searchParams?: { query?: string; page?: string };}) {
   const query = searchParams?.query || "";
@@ -23,9 +25,11 @@ export default async function Home({ searchParams, }: { searchParams?: { query?:
       <hr />
       <InputSearch />
       <div className="flex flex-wrap w-full full justify-left">
+      <Suspense fallback={<CatalogoSkeleton />} >
         {productos?.map((producto: product) => {
-          return <ProductItem key={producto.id} product={producto} />;
-        })}        
+            return <ProductItem key={producto.id} product={producto} />;
+          })}        
+      </Suspense>
       </div>
       <div className="flex justify-center">
       <PaginationButtons pages={pages} pageActive={currentPage} />

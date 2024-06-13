@@ -27,7 +27,7 @@ export default function DeleteCategoria({categoria}: {categoria: category}) {
         <MdDelete /> <span>Eliminar</span>
       </button>
       <Modal titulo="Eliminando Registro" visible={visible}>
-        <p className="m-4">Desea eliminar el registro <b>"{categoria.name}"</b> ?</p>
+        <p className="m-4">Desea eliminar el registro <b>{`"${categoria.name}"`}</b> ?</p>
         <div className="w-full flex flex-row space-x-3 justify-center" >
           <button className="btn btn-primary w-1/3" onClick={() => eliminarCategoria(categoria.id)}>Eliminar</button>
           <button className="btn btn-error w-1/3" onClick={handleModal}>

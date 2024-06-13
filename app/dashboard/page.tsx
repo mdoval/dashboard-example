@@ -3,6 +3,8 @@ import GraficoDeBarras from "../ui/dashboard/grafico-de-barras";
 import { GrCatalog } from "react-icons/gr";
 import { fetchProductosXCategoria } from "@/lib/data";
 import GraficoDeTorta from "../ui/dashboard/grafico-de-torta";
+import { Suspense } from "react";
+import { TortaSkeleton } from "../ui/skeletons";
 
 export default async function DashboardPage() {
   const categoriasXCantidad = await fetchProductosXCategoria()
@@ -19,7 +21,9 @@ export default async function DashboardPage() {
       </div>
       <div className="flex flex-wrap bg-white p-2 shadow-lg border w-full justify-center">
         <GraficoDeBarras />
-        <GraficoDeTorta data={categoriasXCantidad} />
+        <Suspense fallback={<TortaSkeleton />}>
+          <GraficoDeTorta data={categoriasXCantidad} />
+        </Suspense>
       </div>
     </main>
   );
