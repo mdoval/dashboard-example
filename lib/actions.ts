@@ -6,6 +6,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import path from "path";
 import { writeFile } from "fs/promises";
+import { NextResponse } from "next/server";
 
 export async function createProduct(
   prevState: ProductoFormErrors | undefined,
@@ -128,7 +129,7 @@ export async function updateCategoria(
   redirect("/dashboard/categorias");
 }
 
-export async function uploadPhoto(formData: FormData) {
+/*export async function uploadPhoto(formData: FormData) {
   const idproducto: string | undefined = formData.get("id")?.toString();
   const file: File | null = formData.get("file") as unknown as File;
   if (!file) console.log("El archivo no subio");
@@ -159,8 +160,52 @@ export async function uploadPhoto(formData: FormData) {
   }
   revalidatePath(`/dashboard/productos`);
   redirect(`/dashboard/productos`);
-}
+}*/
 
+export const uploadPhoto = async (formData: FormData) => {
+  const file: File | null = formData.get('file') as unknown as File
+  const idproducto: string | undefined = formData.get("id")?.toString();
+
+  if (!file) {
+    return NextResponse.json({ success: false })
+  }
+
+  const fileName = file.name
+  const fileExtension = fileName.split('.').pop()
+
+  const fechaHoraActual: string = new Date()
+    .toISOString()
+    .replace(/\D/g, "")
+    .slice(0, 14);
+  const nombre = idproducto + fechaHoraActual + "." + fileExtension;
+
+  // With the file data in the buffer, you can do whatever you want with it.
+  // For this, we'll just write it to the filesystem in a new location
+  try {
+    const bytes = await file.arrayBuffer()
+    const buffer = Buffer.from(bytes)
+    const path = `public/images/${nombre}`
+    await writeFile(path, buffer)
+    console.log(`open ${path} to see the uploaded file`)  
+
+    let idp: number = 0;    
+    if (idproducto != undefined) idp = parseInt(idproducto);
+//    await writeFile(filePath, buffer);
+    await prisma.product.update({
+      where: { id: idp },
+      data: {
+        image: `/images/${nombre}`,
+      },
+    });
+    //console.log('Archivo Subido')
+  } catch (error) {
+    console.log(error);
+  }
+
+//  return NextResponse.json({ success: true })
+  revalidatePath(`/dashboard/productos`);
+  redirect(`/dashboard/productos`);
+};
 export async function publicarProducto(id: number, estado: boolean) {
   try {
     const productoActualizado = await prisma.product.update({
