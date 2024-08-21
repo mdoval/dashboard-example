@@ -167,7 +167,7 @@ export const uploadPhoto = async (formData: FormData) => {
   const idproducto: string | undefined = formData.get("id")?.toString();
 
   if (!file) {
-    return NextResponse.json({ success: false })
+    return NextResponse.json({ status: false })
   }
 
   const fileName = file.name
@@ -178,31 +178,28 @@ export const uploadPhoto = async (formData: FormData) => {
     .replace(/\D/g, "")
     .slice(0, 14);
   const nombre = idproducto + fechaHoraActual + "." + fileExtension;
+  formData.append('name', nombre);
 
-  // With the file data in the buffer, you can do whatever you want with it.
-  // For this, we'll just write it to the filesystem in a new location
   try {
-    const bytes = await file.arrayBuffer()
-    const buffer = Buffer.from(bytes)
-    const path = `public/images/${nombre}`
-    await writeFile(path, buffer)
-    console.log(`open ${path} to see the uploaded file`)  
-
+    const res = await fetch('https://api.nubecosmica.com.ar/api/upload' ,
+      {
+        method: 'POST',
+        body: formData
+      }
+    )
+    const data = await res.json()
+    console.log(data)        
     let idp: number = 0;    
     if (idproducto != undefined) idp = parseInt(idproducto);
-//    await writeFile(filePath, buffer);
     await prisma.product.update({
       where: { id: idp },
       data: {
-        image: `/images/${nombre}`,
+        image: data.url,
       },
     });
-    //console.log('Archivo Subido')
   } catch (error) {
     console.log(error);
   }
-
-//  return NextResponse.json({ success: true })
   revalidatePath(`/dashboard/productos`);
   redirect(`/dashboard/productos`);
 };
