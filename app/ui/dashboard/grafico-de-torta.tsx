@@ -3,6 +3,7 @@
 import { PieChart } from "@mui/x-charts/PieChart";
 
 export default function GraficoDeTorta({ data }: { data: any }) {
+  console.log(data)
   return (
     <div className="border m-4 shadow-lg">
       <PieChart

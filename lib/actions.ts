@@ -129,39 +129,6 @@ export async function updateCategoria(
   redirect("/dashboard/categorias");
 }
 
-/*export async function uploadPhoto(formData: FormData) {
-  const idproducto: string | undefined = formData.get("id")?.toString();
-  const file: File | null = formData.get("file") as unknown as File;
-  if (!file) console.log("El archivo no subio");
-  const fechaHoraActual: string = new Date()
-    .toISOString()
-    .replace(/\D/g, "")
-    .slice(0, 14);
-  const nombre = idproducto + fechaHoraActual + ".jpg";
-  //console.log(nombre)
-  const bytes = await file.arrayBuffer();
-  const buffer = Buffer.from(bytes);
-  //const filePath = path.join(process.cwd(), "public/images/propiedades", file.name);
-  const filePath = path.join(process.cwd(), "public/images", nombre);
-  //console.log(filePath)
-  try {
-    let idp: number = 0;
-    if (idproducto != undefined) idp = parseInt(idproducto);
-    await writeFile(filePath, buffer);
-    await prisma.product.update({
-      where: { id: idp },
-      data: {
-        image: `/images/${nombre}`,
-      },
-    });
-    //console.log('Archivo Subido')
-  } catch (error) {
-    console.log(error);
-  }
-  revalidatePath(`/dashboard/productos`);
-  redirect(`/dashboard/productos`);
-}*/
-
 export const uploadPhoto = async (formData: FormData) => {
   const file: File | null = formData.get('file') as unknown as File
   const idproducto: string | undefined = formData.get("id")?.toString();
